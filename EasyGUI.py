@@ -12,18 +12,6 @@ shopping_list = {
 }
 
 
-
-title = "GfG-EasyGUI"
- 
-
-msg = "GeeksforGeeks, Hello World from EasyGUI"
- 
-
-button_list = ["add to list", "total price", "find item", "see list", "Quit"]
- 
-
-choice = buttonbox(msg,title,button_list)
-
 def add_to_list(item,price,quantities):
     
     shopping_list.update({item:{"price":price,"quantities":quantities}})
@@ -36,7 +24,7 @@ def total_price():
     for i in shopping_list.values():
        
        total += i["price"] * i["quantities"]
-    print(total)
+    
     return total
     
 
@@ -44,52 +32,70 @@ def total_price():
 def find_item(item):
 
     if item in shopping_list:
-        print(str(shopping_list[item]).replace("{","").replace("}", ""))
+        msgbox(str(shopping_list[item]).replace("{","").replace("}", ""))
 
     else:
-        print("Item not found")
-        add_the_item = input("Do you want to add the item to your list? y or n: ")
-
-        if add_the_item == 'y':
-            price = input("What is the price of the item?: ")
-            quantity = input("What is the quantity of the item?: ")
+        msgbox("Item not found")
+        add_the_item = buttonbox("Do you want to add the item to your list?: ",choices = ["yes","no"])
+        print(add_the_item)
+        if add_the_item == 'yes':
+            price = integerbox("What is the price of the item?: ")
+            quantity = integerbox("What is the quantity of the item?: ")
             add_to_list(item,price,quantity)
 
-        elif add_to_list == 'n':
+        elif add_to_list == 'no':
             pass
 
         else:
-            print("Incorrect input")
+            msgbox("Incorrect input")
+
+
+
+
+title = "GfG-EasyGUI"
+ 
+
+msg = "GeeksforGeeks, Hello World from EasyGUI"
+ 
+
+button_list = ["add to list","remove from list" ,"total price", "find item", "see list", "Quit"]
+ 
 
 
 while True:
 
-    choice = input("What are you planning to do, add to list(1), total price(2), find item(3) , see list(4), Quit(Q):")
-
-
-    if choice == "1":        
-        item_name = input("What is the name of the item you want to add? :").lower().replace(' ','')
-        
+    choice = buttonbox(msg,title,button_list)
+    if choice == "add to list":  
+        text = "What is the name of the item you want to add? :"   
+        item_name = enterbox(text, title).lower().replace(' ','') 
+           
         print(item_name)
-        price_value = input("What is the price of the item? :")
-        quantity_of_product = input("What is the quantity of the item? :")
+        price_value = enterbox("What is the price of the item? :")
+        quantity_of_product = enterbox("What is the quantity of the item? :")
 
         add_to_list(item_name,price_value,quantity_of_product)
 
-    elif choice == '2':
-        print("The total price is :" ,total_price())
+    elif choice == 'total price':
+        msgbox(f"The total price is : {total_price()}" )
 
-    elif choice == '3':
-        item = input("what item do you want to find? :")
+    elif choice == 'find item':
+        item = enterbox("what item do you want to find? :")
 
         find_item(item)
 
-    elif  choice == '4':
-        print( "\n"+ str(shopping_list).replace("{","").replace("}", "").replace("'",""))
+    elif  choice == 'see list':
+        list_items =  "\n"+ str(shopping_list).replace("{","").replace("}", "").replace("'","")
+        shopping_keys = shopping_list.keys()
+        for i in shopping_list:
+            message = i," : ","price:",shopping_list[i]["price"],"x",shopping_list[i]["quantities"],"=", shopping_list[i]["price"] * shopping_list[i]["quantities"]
+            msgbox(message)
 
-    elif choice == 'Q':
+    elif choice == 'remove from list':
+        item = enterbox("What is the item you want to remove? : ")
+        shopping_list.pop(item)
+    elif choice == 'Quit':
         break
     else:
-        print("Incorrect input")
+        enterbox("Incorrect input")
 
 
