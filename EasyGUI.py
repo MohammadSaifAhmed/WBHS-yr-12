@@ -45,7 +45,7 @@ def find_item(item):
 
         elif add_to_list == 'no':
             pass
-
+                                          
         else:
             msgbox("Incorrect input")
 
@@ -60,7 +60,9 @@ msg = "GeeksforGeeks, Hello World from EasyGUI"
 
 button_list = ["add to list","remove from list" ,"total price", "find item", "see list", "Quit"]
  
-
+list_keys = []
+for key in shopping_list.keys():
+    list_keys.append(key)
 
 while True:
 
@@ -70,8 +72,8 @@ while True:
         item_name = enterbox(text, title).lower().replace(' ','') 
            
         print(item_name)
-        price_value = enterbox("What is the price of the item? :")
-        quantity_of_product = enterbox("What is the quantity of the item? :")
+        price_value = integerbox("What is the price of the item? :")
+        quantity_of_product = integerbox("What is the quantity of the item? :")
 
         add_to_list(item_name,price_value,quantity_of_product)
 
@@ -79,19 +81,24 @@ while True:
         msgbox(f"The total price is : {total_price()}" )
 
     elif choice == 'find item':
-        item = enterbox("what item do you want to find? :")
+        item = buttonbox("what item do you want to find? :", choices=list_keys)
 
         find_item(item)
 
     elif  choice == 'see list':
-        list_items =  "\n"+ str(shopping_list).replace("{","").replace("}", "").replace("'","")
-        shopping_keys = shopping_list.keys()
+    
+        message = ""
         for i in shopping_list:
-            message = i," : ","price:",shopping_list[i]["price"],"x",shopping_list[i]["quantities"],"=", shopping_list[i]["price"] * shopping_list[i]["quantities"]
-            msgbox(message)
+
+
+            message += f"{i} : price: ${shopping_list[i]['price']} x {shopping_list[i]['quantities']} = ${shopping_list[i]['price'] * shopping_list[i]['quantities']} \n"
+            
+            
+        msgbox(message)    
 
     elif choice == 'remove from list':
-        item = enterbox("What is the item you want to remove? : ")
+        
+        item = buttonbox("What is the item you want to remove? : ", choices= list_keys)
         shopping_list.pop(item)
     elif choice == 'Quit':
         break
