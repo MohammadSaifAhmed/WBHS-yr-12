@@ -1,7 +1,7 @@
 shopping_list = {
 
-    'banana':{"price": 3.00, "quantities": 4},
-    'carrots':{"price": 2.00, "quantities": 1},
+    'banana':3.50,
+    'carrots':2.00,
 
 
 
@@ -9,27 +9,23 @@ shopping_list = {
 }
 
 
-def add_to_list(item,price,quantities):
-    
-    shopping_list.update({item:{"price":price,"quantities":quantities}})
+def add_to_list(item,price):
+    shopping_list.update({item:price})
 
-    print(shopping_list)
 
 def total_price():
 
     total = 0
     for i in shopping_list.values():
-       
-       total += i["price"] * i["quantities"]
+        total += i
+     
     print(total)
-    return total
-    
 
 
 def find_item(item):
 
     if item in shopping_list:
-        print(str(shopping_list[item]).replace("{","").replace("}", ""))
+        print(shopping_list[item])
 
     else:
         print("Item not found")
@@ -37,8 +33,7 @@ def find_item(item):
 
         if add_the_item == 'y':
             price = input("What is the price of the item?: ")
-            quantity = input("What is the quantity of the item?: ")
-            add_to_list(item,price,quantity)
+            add_to_list(item,price)
 
         elif add_to_list == 'n':
             pass
@@ -57,9 +52,8 @@ while True:
         
         print(item_name)
         price_value = input("What is the price of the item? :")
-        quantity_of_product = input("What is the quantity of the item? :")
 
-        add_to_list(item_name,price_value,quantity_of_product)
+        add_to_list(item_name,price_value)
 
     elif choice == '2':
         print("The total price is :" ,total_price())
@@ -70,7 +64,7 @@ while True:
         find_item(item)
 
     elif  choice == '4':
-        print( "\n"+ str(shopping_list).replace("{","").replace("}", "").replace("'",""))
+        print(shopping_list)
 
     elif choice == 'Q':
         break
