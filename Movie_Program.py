@@ -33,9 +33,16 @@ movies = {
                                 },
 }
 
-def new_movie():
-
+def movie_change(type):
     input_list = ["Name", "genre", "duration", "showtime","tickets sold"]
+    message = ''
+    if type == new:
+        pass
+    elif type == update_movie:
+        movie_search = choicebox("What movie do you want to change?", choices = list(movies.keys()))
+    else:
+        pass
+   
     output = multenterbox("movie details", "Add movie", input_list)
     print(output)
     movies.update({output[0]:{
@@ -50,10 +57,21 @@ def new_movie():
    
 
 def search():
-    message = ''
+   
     movie_search = choicebox("What movie are you looking for?", choices = list(movies.keys()))
+
+    display(movie_search)
+    if not movie_search:
+        return 1
+
+    
+
+    
+     
+def display(movie_name):
+    message = ''
     for i in movies:
-        if i == movie_search:
+        if i == movie_name:
             message += (f"""{i} :  \nGenre: {movies[i]['Genre']} \
     \nDuration: {movies[i]['Duration']}min  \
     \nShowtime: {movies[i]['Showtime']} \
@@ -65,9 +83,9 @@ def search():
 
 
 def update():
-    message = ''
+   
     change_options = []
-    movie_search = choicebox("What movie do you want to change?", choices = list(movies.keys()))
+    
     for i in movies:
         if i == movie_search:
             message += (f"""{i} :  \nGenre: {movies[i]['Genre']} \
@@ -89,8 +107,9 @@ Today's tickets sold: {movies[i]["Today's Ticket sold"]} \n\n""")
 
     msgbox(message)
 
+
 def leave():
-    pass
+    return None
 
 
 
@@ -103,11 +122,11 @@ def main():
         "Update":update,
         "Output Movies":output_movies,
         "Exit":leave,
-
+        
     }
 
-
-    while True:
+    running = True
+    while running:
         
         msg = "What would you like to do?"
         title = "movie theater"
@@ -116,8 +135,13 @@ def main():
         print(choices)
 
         selection = buttonbox(msg,title,choices)
+        print(type(selection))
         print(options[selection])
         user_choice = options[selection]()
+
+
+        if not user_choice:
+            running = False
 
 
 main()
